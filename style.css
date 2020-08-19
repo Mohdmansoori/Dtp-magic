@@ -1,0 +1,334 @@
+.b-loaded {
+    opacity: 1;
+    
+}
+.b-lazy {
+    transition: all 500ms;
+    
+}
+.SearchExpert_a {
+    background: #fff;
+    padding: 0 0 0 0;
+    top: -60px;
+    border-radius: 6px;
+    box-shadow: 0 10px 20px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08);
+    z-index: 99;
+}
+.w330 {
+    width: 330px;
+    float: left;
+}
+.offer_img {
+    border-radius: 5px;
+    width: 80px;
+    height: 80px;
+    display: inline-block;
+}
+.top30btm {
+    margin: 30px 0 26px 0;
+}
+.font_400 {
+    font-weight: 400 !important;
+}
+.font20 {
+    font-size: 20px;
+}
+.text-center {
+    text-align: center;
+}
+.GrayColor {
+    color: #333 !important;
+}
+.m_right30 {
+    margin-right: 30px;
+}
+.input_bg {
+    background: #f2f2f2;
+    padding: 30px 20px;
+    border-radius: 0 40px 0 40px;
+}
+.sign_up_form_a {
+    margin: 0 10px 0 0 !important;
+    padding: 0;
+    width: 20%;
+    float: left;
+}
+.sign_up_form input {
+    margin: 0 0 7px 0;
+    padding: 10px;
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border: 1px solid #e7e7e7;
+    font-size: 16px;
+    border-radius: 3px;
+}
+.sign_up_form_b {
+    margin: 0;
+    padding: 0;
+    width: 74%;
+    float: left;
+}
+.sign_up_form input {
+    margin: 0 0 7px 0;
+    padding: 10px;
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border: 1px solid #e7e7e7;
+    font-size: 16px;
+    border-radius: 3px;
+}
+.text-danger {
+    color: #a94442;
+}
+.HoroscopeSign {
+    font-size: 16px;
+    text-align: center;
+}
+.whiteBG {
+    background: #fff;
+    background-image: url('./Images/banner.jpg');
+}
+.TopHeadingGray {
+    
+    position: relative;
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.sprite-heading-logo-icon {
+    width: 64px;
+    height: 42px;
+    background-position: -460px -98px!important;
+}
+.TopHeadingGray h1 {
+    text-transform: uppercase;
+    margin: 40px 0 20px;
+    padding-bottom: 3px;
+    font-size: 45px;
+    color: #999;
+}
+.TopHeadingGray h1 span {
+    color: #f79e02 !important
+}
+.TopHeadingGray h2 span {
+    color: #f79e02 !important;
+}
+.inline_block_all {
+    display: inline-block;
+}
+.sprite-sign {
+    display: block;
+    display: -webkit-inline-box;
+    background: url('Icons/sprite.webp') no-repeat;
+}
+.sprite-aries {
+    background-position: -10px -270px!important;
+}
+.w68 {
+    width: 68px;
+    height: 68px;
+}
+.ariesColor {
+    color: #b31013;
+}
+.top5 {
+    margin-top: 5px;
+}
+.font11 {
+    font-size: 11px;
+}
+.BlackColor {
+    color: #000;
+}
+.top0 {
+    margin-top: 0!important;
+}
+.sprite-taurus {
+    background-position: -362px -358px!important;
+}
+.LightYellowIcon {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 0 15px;
+}
+.taurusColor {
+    color: #8a38a6;
+} 
+.sprite-gemini {
+    background-position: -274px -270px!important;
+}
+.geminiColor {
+    color: #b5752e;
+}
+.sprite-cancer {
+    background-position: -98px -270px!important;
+}
+.sprite-leo {
+    background-position: -362px -270px!important;
+}
+.leoColor {
+    color: #b75322;
+}
+.sprite-virgo {
+    background-position: -460px -10px!important;
+}
+.virgoColor {
+    color: #88475d;
+}
+.sprite-libra {
+    background-position: -10px -358px!important;
+}
+.libraColor {
+    color: #ac388d;
+}
+.sprite-scorpio {
+    background-position: -274px -358px!important;
+}
+.scorpioColor {
+    color: #c29246;
+}
+.sprite-sagittarius {
+    background-position: -186px -358px!important;
+}
+.sagittariusColor {
+    color: #2f7a8d;
+}
+.sprite-capricorn {
+    background-position: -186px -270px!important;
+}
+.capricornColor {
+    color: #4a6dad;
+}
+.sprite-aquarius {
+    background-position: -233px -109px!important;
+}
+.aquariusColor {
+    color: #9b6f4c;
+}
+.sprite-pisces {
+    background-position: -98px -358px!important;
+}
+.piscesColor {
+    color: #465a7b;
+}
+.center {
+    text-align: center!important;
+}
+.HideTopPhone {
+    display: block;
+}
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+.carousel {
+    position: relative;
+}
+.astrologer_box {
+    border: 1px solid #ececec;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.margin_Rgt10 {
+    margin-right: 10px !important;
+}
+.pull-left {
+    float: left !important;
+}
+.img-circle {
+    border-radius: 50%;
+}
+.as_profile_font {
+    font-size: 15px;
+    line-height: 20px;
+    display: block;
+    margin-bottom: 4px;
+    height: auto !important;
+    color: #5a5a5a;
+}
+.media_p {
+    border: 1px solid #ccc;
+    margin: 20px 0 10px 0;
+    height: 80px;
+    border-radius: 3px;
+    padding: 10px 0;
+}
+.RightMenu li {
+    float: left;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 7px;
+    line-height: 47px;
+    padding-top: 12px;
+}
+.RightMenu li a {
+    color: #999;
+    font-size: 15px;
+    font-weight: bold;
+    position: relative;
+    top: 1px;
+    margin-right: 15px;
+}
+.ReadingTile {
+    width: 100%;
+    height: 130px;
+    position: relative;
+}
+
+
+.ReadingTile h3 {
+  color: #1ec396 !important;  
+}
+.TopHeadingGrayH span {
+    color: #f79e02 !important;
+}
+.media_p {
+    border: 1px solid #ccc;
+    margin: 20px 0 10px 0;
+    height: 80px;
+    border-radius: 3px;
+    padding: 10px 0;
+}
+.sprite-yahoo {
+    width: 109px;
+    height: 50px;
+    background-position: -10px -480px !important;
+    margin-top: 14px;
+} 
+.sprite-msn {
+    width: 89px;
+    height: 50px;
+    background-position: -332px -182px !important;
+    margin-top: 4px;
+}
+.sprite-dailyhunt {
+    width: 110px;
+    height: 50px;
+    background-position: -10px -431px !important;
+    margin-top: 12px;
+}
+.sprite-ucnews {
+    width: 128px;
+    height: 55px;
+    background-position: -277px -429px !important;
+    margin-top: 1px;
+}
+.sprite-vodafone {
+    width: 108px;
+    height: 55px;
+    background-position: -332px -10px !important;
+    
+}
+.sprite-reliance {
+    width: 131px;
+    height: 51px;
+    background-position: -140px -428px !important;
+    margin-top: 18px !important;
+}

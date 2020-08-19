@@ -1,0 +1,131 @@
+$(document).ready(function(){var url=window.location.hash;if(url!="")
+{activaTab('divUserLoyality');$('#divUserLoyality').load("/talktoastrologer/userprofile/userloyality");}
+else if(window.location.hash=="divUserLoyality")
+{$('a[href="'+window.location.hash+'"]').click()}
+$.ajax({type:'POST',url:'/talktoastrologer/userprofile/_rechargehistory',success:function(result){$('#divRechargeHistory').html(result);},failure:function(result){alert(result.responseText);}});$("#tabCustomerCare").click(function(){$('#divCustomerCare').load('/talktoastrologer/userprofile/customercare')});$("#tabHelpPhone").click(function(){$('#divHelpPhone').load('/talktoastrologer/userprofile/helpphone')});$("#tabHelpFAQ").click(function(){$('#divHelpFAQ').load('/talktoastrologer/userprofile/helpfaq')});$("#tabBirthDetail").click(function(){$("#divBirthDetail").load("/talktoastrologer/userprofile/birthdetails",function(){initiate();getDate();});});$("#tabPresentLocation").click(function(){$('#divPresentLocation').load("/talktoastrologer/userprofile/presentlocation",function(){initiateLocation();});});$("#tabPreferenceLanguage").click(function(){$('#divPreferenceLanguage').load("/talktoastrologer/userprofile/preferencelanguage",function(){$.ajax({type:"GET",url:"/talktoastrologer/tta/checkuserlangugage",success:function(response){if(response.message!="Not InRole")
+{if(response.data!=null)
+{$("#PrimaryLanguage").val(response.data.primaryLanguageId);$("#SecondaryLanguage").val(response.data.secondaryLanguageId);}}},failure:function(e){}})});});$("#tabSubscribeNow").click(function(){$('#divSubscribeNow').load("/talktoastrologer/userprofile/subscribenow");});$("#tabPersonalDetail").click(function(){$.ajax({type:'GET',url:'/talktoastrologer/userprofile/personaldetail',dataType:"json",success:function(result){if(result!="/registration/login.aspx"){$("#FirstName").val(result.firstName);$("#LastName").val(result.lastName);$("#EmailAddress").val(result.emailAddress);$("#PhoneCode").val(result.phoneCode);$("#PhoneNumber").val(result.PhoneNumber);$("#Gender").val(result.gender);}
+$('#divPersonalDetail').html(result);},failure:function(response){}});$('#divPersonalDetail').load('/talktoastrologer/userprofile/personaldetail')});$("#tabCallHistory").click(function(){$.ajax({type:'POST',url:'/talktoastrologer/userprofile/callhistory',contentType:"application/json; charset=utf-8",dataType:"html",success:function(result){$('#divCallHistory').html(result);},failure:function(result){alert(result.responseText);}});});$("#tabChangePassword").click(function(){$('#divChangePassword').load("/talktoastrologer/userprofile/changepassword");});$("#tabUserLoyality").click(function(){$('#divUserLoyality').load("/talktoastrologer/userprofile/userloyality");});});var personalDetailOps={onBegin:function(form){$(form).find("[type='submit']").text("Please wait...");},onSuccess:function(result,form){if(result.success){$(form).find("[type='submit']").text("Updating..");window.location=result.redirectUrl;$('#personalDetailValidationSummary').show().text(result.message);}else{$(form).find("[type='submit']").text("Update");$('#personalDetailWarningValidationSummary').show().text(result.message);}}}
+function getDate(){$("#DateOfBirth").datepicker({format:'D, M dd, yyyy',endDate:'0d'});navigator.permissions.query({name:'geolocation'}).then(function(permissionStatus){if(permissionStatus.state!="denied"){}else{document.getElementById("btnFetchCurrent").style.display='none';}});}
+function initiate(){var options={types:['(cities)']};var places=new google.maps.places.Autocomplete(document.getElementById("BirthLocation"),options);google.maps.event.addListener(places,'place_changed',function(){var place=places.getPlace();var address=place.formatted_address;var city=getCity(place);var state=getState(place);var country=getCountry(place);var locality=getLocality(place);$('#HdnPlaceId').val(place.place_id);$('#BirthCountry').val(country);$('#BirthState').val(state);if(locality){$('#BirthCity').val(locality);}else{$('BirthCity').val(city);}
+$('#HdnBirthCountry').val(country);$('#HdnBirthState').val(state);if(locality){$('#HdnBirthCity').val(locality);}else{$('#HdnBirthCity').val(city);}});}
+function initiateLocation(){var options={types:['(cities)']};var places=new google.maps.places.Autocomplete(document.getElementById("Location"),options);google.maps.event.addListener(places,'place_changed',function(){var place=places.getPlace();var address=place.formatted_address;var city=getCity(place);var state=getState(place);var country=getCountry(place);var locality=getLocality(place);$('#HdnAddressPlaceId').val(place.place_id);$('#Country').val(country);$('#State').val(state);if(locality){$('#City').val(locality);}else{$('City').val(city);}
+$('#HdnAddressCountry').val(country);$('#HdnAddressState').val(state);if(locality){$('#HdnAddressCity').val(locality);}else{$('#HdnAddressCity').val(city);}});}
+function getCity(place){var COMPONENT_TEMPLATE={administrative_area_level_2:'short_name'},state=getAddrComponent(place,COMPONENT_TEMPLATE);return state;}
+function getAddrComponent(place,componentTemplate){var result;if(!isGooglePlace(place))
+return;for(var i=0;i<place.address_components.length;i++){var addressType=place.address_components[i].types[0];if(componentTemplate[addressType]){result=place.address_components[i][componentTemplate[addressType]];return result;}}
+return;}
+function getState(place){var COMPONENT_TEMPLATE={administrative_area_level_1:'long_name'},state=getAddrComponent(place,COMPONENT_TEMPLATE);return state;}
+function getLocality(place){var COMPONENT_TEMPLATE={locality:'long_name'},city=getAddrComponent(place,COMPONENT_TEMPLATE);return city;}
+function getSubLocality(place){var COMPONENT_TEMPLATE={sublocality_level_1:'long_name'},sublocality=getAddrComponent(place,COMPONENT_TEMPLATE);return sublocality;}
+function getState(place){var COMPONENT_TEMPLATE={administrative_area_level_1:'long_name'},state=getAddrComponent(place,COMPONENT_TEMPLATE);return state;}
+function getCountry(place){var COMPONENT_TEMPLATE={country:'long_name'},country=getAddrComponent(place,COMPONENT_TEMPLATE);return country;}
+function isGooglePlace(place){if(!place)
+return false;return!!place.place_id;}
+function getCurrentLocation(){if(navigator.geolocation){navigator.geolocation.getCurrentPosition(showPosition,handle_error);}else{$("#txtAddressPlaces").focus();document.getElementById("btnFetchCurrent").style.display='none';}}
+function handle_error(){$("#txtAddressPlaces").focus();document.getElementById("btnFetchCurrent").style.display='none';}
+function showPosition(position){$("#HdnLat").val(position.coords.latitude);$("#HdnLong").val(position.coords.longitude);document.getElementById("btnFetchCurrent").style.display='none';document.getElementById('btnCurrentLoc').style.display='inline-block';$("#btnCurrentLoc").click();}
+function SetBirthDetails(parameter){if(parameter=="Birth"){if($('#HdnBirthCountry').val()==null||$('#HdnBirthState').val()==null||$('#HdnBirthCity').val()==null){$('#BirthDetailValidationSummary').show().text("Please enter valid Location having City ,State ,Country.");return;}
+else{$("#btnClick").text("PLEASE WAIT...");var minutes=$('#Minutes').val();var hours=$('#Hours').val();var _dateofbirth=$("#Month option:selected").text()+"/"+$("#Date option:selected").text()+"/"+$("#Year option:selected").text();var DOB=_dateofbirth+' '+$('#Hours').val()+':'+$('#Minutes').val()+':00 '+$('#Meridiem').val();var placeId=$('#HdnPlaceId').val();var _param=placeId+'Date:'+DOB;$.ajax({type:'GET',url:'/talktoastrologer/userprofile/setbirthdetails',data:{PlaceId:placeId,DateOfBirth:DOB},success:function(response){$("#btnClick").text("Updated");$('#BirthDetailValidationSummary').show().text(response.message);},failure:function(response){}});}}
+else if(parameter=="PresentLocation"){if($('#HdnAddressCountry').val()==null||$('#HdnAddressState').val()==null||$('#HdnAddressCity').val()==null){$('#presentLocationValidationSummary').show().text("Please enter valid Location having City ,State ,Country.");return;}
+else{$("#Button1").text("PLEASE WAIT...");var minutes=$('#Minutes').val();var hours=$('#Hours').val();var DOB=$('#DateOfBirth').val()+' '+$('#Hours').val()+':'+$('#Minutes').val()+':00 '+$('#Meridiem').val();var placeId=$('#HdnAddressPlaceId').val();$.ajax({type:'GET',url:'/talktoastrologer/userprofile/setbirthdetails',dataType:"json",data:{PlaceId:placeId},success:function(response){if(response.message)
+{$('#presentLocationValidationSummary').show().text("Location Updated Successfully.");}},failure:function(response){}});}}}
+function SetPersonalDetails()
+{var FirstName=$('#FirstName').val();var LastName=$('#LastName').val();var Gender=$('#Gender').val();$.ajax({type:'GET',url:'/talktoastrologer/userprofile/setpersonaldetails',dataType:"json",data:{_firstName:FirstName,_lastName:LastName,_gender:Gender},success:function(response){if(response.success){$('#personalDetailWarningValidationSummary').hide();$('#personalDetailValidationSummary').show().text(response.message);}
+else{$('#personalDetailValidationSummary').hide();$('#personalDetailWarningValidationSummary').show().text(response.message);}},failure:function(response){}});}
+function SetPresentLocation()
+{var lat=$("#HdnLat").val();var long=$("#HdnLong").val();var _placeid=$('#HdnAddressPlaceId').val();$.ajax({type:'GET',url:'/talktoastrologer/userprofile/setpresentlocation',dataType:"json",data:{_latitude:lat,_longitude:lat,PlaceId:_placeid},success:function(response){if(response.success)
+{$('#presentLocationValidationSummary').show().text("Address saved successfully.");}},failure:function(response){}});}
+function checklength(){if($("#NewPassword").val().length<6)
+{$('#lenghtherror').show().text("The password must be at least 6 characters long.");}
+else{$('#lenghtherror').hide();}}
+function UpdatePassword()
+{$('#ChangePasswordErrorValidationSummary').hide();$('#ChangePasswordValidationSummary').hide();if($("#NewPassword").val().length<6)
+{$('#lenghtherror').show().text("The password must be at least 6 characters long.");return;}
+var old=$("#OldPassword").val();var newPassword=$("#NewPassword").val();var confirm=$("#ConfirmPassword").val();if(confirm!=newPassword)
+{$('#ChangePasswordErrorValidationSummary').show().text("Password not matched");return;}
+$.ajax({type:'GET',url:'/talktoastrologer/userprofile/updatepassword',dataType:"json",data:{_oldPassword:old,_newPassword:newPassword,_confirmPassword:confirm},success:function(response){if(response.success)
+{$('#ChangePasswordErrorValidationSummary').hide();$('#ChangePasswordValidationSummary').show().text(response.message);}
+else
+{$('#ChangePasswordValidationSummary').hide();$('#ChangePasswordErrorValidationSummary').show().text(response.message);}},failure:function(response){}});}
+function UpdateLanguage()
+{var _primary=$("#PrimaryLanguage option:selected").val();var _secondary=$("#SecondaryLanguage option:selected").val();var dto={};if(_primary!=null)
+{dto.PrimaryLanguageId=_primary;}
+if(_secondary!=null)
+{dto.SecondaryLanguageId=_secondary;}
+$.ajax({type:'GET',url:'/talktoastrologer/tta/UpdateUserLangugage',data:dto,success:function(response){if(response.success=="success")
+{$('#preferenceLanguageErrorValidationSummary').hide();$('#preferenceLanguageValidationSummary').show().text("Updated Successfully");}
+else
+{$('#preferenceLanguageValidationSummary').hide();$('#preferenceLanguageErrorValidationSummary').show().text("Not Updated");}},failure:function(response){}});}
+function VerifyPhoneNumber(){var phoneNumber=$("#VerifyPhoneNumber").val();var country=$("#PhoneCode").val();var array=country.split(" ");var phoneCode=array[0];var PageURL=$("#hdnURL").val();$.ajax({type:'POST',url:'/talktoastrologer/account/sendotpjson',data:{_phoneCode:phoneCode,_phoneNumber:phoneNumber,_pageUrl:PageURL},success:function(response){if(response.success==true){$('#UpdateMobile').hide();$('#OTPVerification').show();}else{$('#UpdateMobile').show();$('#OTPVerification').hide();}},error:function(response){}});}
+function UpdatePhoneNumber(){var phoneNumber=$("#hdnPhoneNumber").val();var phoneCode=$("#hdnPhoneCode").val();var OTP=$("#OTP").val();var PageURL=$("#hdnURL").val();$.ajax({type:'GET',url:'/talktoastrologer/userprofile/updatephonenumber',contentType:"application/json; charset=utf-8",dataType:"json",data:{_phoneCode:phoneCode,_phoneNumber:phoneNumber,_oTP:OTP},success:function(response){$(form).find("[type='submit']").text("Verifying...");window.location=result.redirectUrl;},failure:function(response){}});}
+function CallPack()
+{window.location="/callingpack.aspx";}
+function checkValidation(){var country=$("#PhoneCode").val();CountryId=country.match(/\(([^)]+)\)/)[1];var MobileNumber=$("#VerifyPhoneNumber").val()
+if(CountryId!=""){var pattern=new RegExp("^[0-9]{10}$");var othercountrypattern=new RegExp("^[0-9]");if(CountryId==="IN"||CountryId==="US"||CountryId==="CA"){if(MobileNumber!=null&&pattern.test(MobileNumber)){$('#MobileError').hide();}else{$('#MobileError').show();$('#MobileError').html("Enter your 10 digit mobile number");return false;}}
+else{if(MobileNumber.length>3&&MobileNumber.length<17&&othercountrypattern.test(MobileNumber)){$('#MobileError').hide();}
+else{$('#MobileError').show();$('#MobileError').html("Enter your valid mobile number");e.preventDefault();return false;}}
+VerifyPhoneNumber();}}
+function VerifyOTP(){var winlocation;if($("#hdnURL").val()!="")
+{winlocation=$("#hdnURL").val();}
+else
+{winlocation="/talk-to-astrologers";}
+var Otp=$("#txtOTP").val();var PhoneCode=$("#PhoneCode").val();var PhoneNumber=$("#VerifyPhoneNumber").val();$.ajax({url:'/talktoastrologer/userprofile/updatephonenumber',type:'post',data:{_phoneCode:PhoneCode,_phoneNumber:PhoneNumber,_oTP:Otp},success:function(response){if(response.success){window.location="/talk-to-astrologers";}
+else{$('#MessageBox').hide();$('#lblsuccessmsg').hide();$('#lblerrormsg').show().text(response.message);return false;}},error:function(response){}});}
+function ResendOTP(){$("#BtnResend").attr('disabled',true);var PhoneCode=$("#PhoneCode").val();var PhoneNumber=$("#VerifyPhoneNumber").val();var PageURL=$("#hdnURL").val();$.ajax({type:'POST',url:'/talktoastrologer/account/resendotp',data:{_phoneCode:PhoneCode,_phoneNumber:PhoneNumber,_pageUrl:PageURL},success:function(response){if(response){if(response.success){$('#lblerrormsg').hide();$('#lblerrormsg').text('');$('#lblsuccessmsg').show();$('#lblsuccessmsg').text(response.message);}else{$('#lblsuccessmsg').text('');$('#successMsg').hide();$('#lblerrormsg').show();$('#lblerrormsg').text(response.message);}
+$("#BtnResend").removeAttr("disabled");}},error:function(response){$('#VerifyPhoneNumber').show();$('#MessageBox').hide();$('#successMsg').hide();$('#errormsg').show();$('#errormsg').text(response.message);$("#BtnResend").removeAttr("disabled");}});return false;}
+function UpdateEmail(){var _email=$("#EmailAddress").val();$.ajax({type:'POST',url:'/talktoastrologer/userprofile/changeemailaddress',data:{Email:_email},success:function(response){window.location=response.redirectUrl;}});}
+$("#btnEmailUpdate").click(function(){$("#successMsg").hide();var _email=$("#EmailAddress").val();$.ajax({type:'POST',url:'/talktoastrologer/userprofile/updatepostemailaddress',data:{Email:_email},success:function(response){if(response.success)
+{$("#successMsgEmailUpdation").removeClass();$("#successMsgEmailUpdation").show();$("#successMsgEmailUpdation").addClass("alert alert-success alert-dismissible fade in");$("#successMsgEmailUpdation").text(response.message);}
+else
+{$("#successMsgEmailUpdation").removeClass();$("#successMsgEmailUpdation").show()
+$("#successMsgEmailUpdation").addClass("alert alert-danger alert-dismissible fade in");$("#successMsgEmailUpdation").text(response.message);}}});});function DeleteUserAccount()
+{$("#DeleteModalModal").modal("show");}
+var ReasontoDelete=null;var DeleteOTP=null
+function Confirm()
+{var _reason=$("#reasonforDelete").val();if(_reason==""){$("#DeleteAccountErrorValidationSummary").show().text("Please mention the reason");return false;}
+else{$("#DeleteAccountErrorValidationSummary").hide();ReasontoDelete=$("#reasonforDelete").val();}
+$("#DeleteModalModal").modal("hide");$("#confirmDelete").modal("show");$("#errorMessage").hide();$("#btnconfirmDelete").show();$("#confirmCancel").show();$("#CancelDelete").hide();}
+function UnlockLoyality()
+{$("#myModal").modal("show");}
+var _userLoyaltyBonusPackId=null;var _loyalityPoints=null;var _loyalityAmount=null;function AvailLoyality(UserLoyaltyBonusPackId,LoyalityPoints,LoyalityAmount,CountryCode)
+{var CountryCode=$("#CountryCode").val();$("#availmyModal").modal("show");if(CountryCode=="IN")
+{_loyalityAmount="₹ "+LoyalityAmount;}
+else{_loyalityAmount="$ "+LoyalityAmount;}
+if($("#Languge").val()=="EN")
+{$("#ConfirmationText").html("You are about to reedem "+LoyalityPoints+" points to"+'<br>'+"win "+_loyalityAmount+" free pack");}
+else
+{$("#ConfirmationText").html("यदि आप "+LoyalityPoints+" पॉइंट्स रिडीम करते हैं तो जीतेंगे "+_loyalityAmount+" का फ्री पैक !");}
+_userLoyaltyBonusPackId=UserLoyaltyBonusPackId;_loyalityPoints=LoyalityPoints;}
+function RedeemLoyalityPoints()
+{$.ajax({type:'POST',url:'/talktoastrologer/userprofile/redeemuserloyaltybonuspackasync',data:{_UserLoyaltyBonusPackId:_userLoyaltyBonusPackId},success:function(response){if(response.status==true)
+{$("#AvailPopup").hide();$("#AvailConfirmationPopup").show();$(".pyro").show();$(".pyro").delay(3000).hide(0);setTimeout(function(){$("#AvailConfirmationPopup").modal("hide");},4000);var val=response.message;var myString=val.split("<br/>")[1];$("#successmsgPopup").text(myString);}}});}
+function Refresh()
+{window.location="/registration/myaccount.aspx";}
+function DeleteAccount()
+{$("#DeleteModalModal").modal("hide");$("#confirmDelete").modal("hide");var _reason=$("#reasonforDelete").val();$.ajax({type:'POST',url:'/talktoastrologer/userprofile/SendOtpToVerifiedUser',success:function(response){if(response.status=="success")
+{DeleteOTP=response.oTp;$("#verifyDeleteModal").modal("show");$("#successMsg").text(response.message);}
+else
+{$("#confirmDelete").modal("show");$("#sure").hide();$("#errorMessage").show().text(response.message);$("#btnconfirmDelete").hide();$("#confirmCancel").hide();$("#CancelDelete").show();}}});}
+function VerifyOTP_DeleteAccount()
+{var userOTP=$("#DeleteOTP").val();if(userOTP==DeleteOTP)
+{var dto={};dto.Otp=DeleteOTP;dto.Remark=ReasontoDelete;dto.AstroRemarkId=1;$.ajax({type:'POST',url:'/talktoastrologer/userprofile/deactivateuseraccount',data:dto,success:function(response){if(response.status=="fail")
+{$("#errorMessage").text(response.message);}
+else{$("#confirmDelete").modal("show");$("#confirmCancel").hide();$("#btnconfirmDelete").hide();$("#CancelDelete").hide();$("#errorMessage").text(response.message);setTimeout(function(){$("#confirmDelete").hide();},1000);window.location=response.redirectUrl;}}});}else{$("#errormsg").show().text("Invalid OTP");return false;}}
+function ResendDeleteOtp()
+{$.ajax({type:'POST',url:'/talktoastrologer/userprofile/resenddeleteotp',success:function(response){if(response.status=="fail")
+{$("#errorMessage").text(response.message);}
+else{$("#spanresendOTP").hide();}}});}
+$(function(){var dt=new Date();var year=dt.getFullYear()+10;var range='1920:'+year;$("#DateOfBirth").datepicker({changeMonth:true,yearRange:range,changeYear:true,dateFormat:'dd/mm/yy'});});function activaTab(tab){$('.nav-tabs a[href="#'+tab+'"]').tab('show');};function CheckLoyalityStatus()
+{$("#availmyModal").modal("hide");$(".pyro").hide();location.reload();}
+function AskQUeryByMail()
+{$("#btnAskQuery").text("Please Wait..");var testEmail=/^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;if(testEmail.test($("#txtUserQueryId").val())&&$("#txtUserQueryId").val()!="")
+{$("#emailValidationError").hide().text("");}
+else{$("#emailValidationError").show().text("Invalid Email Address");$("#btnAskQuery").text("Submit");return false;}
+if($("#txtQuerybox").val()==""){$("#QueryboxError").show().text("please enter your query");$("#btnAskQuery").text("Submit");return false;}
+else{$("#QueryboxError").hide().text("")}
+var dto={};dto.EmailAddress=$("#txtUserQueryId").val(),dto.EmailContent=$("#txtQuerybox").val()
+$.ajax({type:"POST",url:"/talktoastrologer/tta/triggerloyaltyfaqtoemailasync",data:dto,success:function(response){if(response.success==true)
+{$("#divThankyouQueryform").show();$("#divQueryFOrm").hide();}
+else
+{$("#btnAskQuery").text("Submit");$("#lblerrormsg").show().text(response.message);}},failure:function(e){}})}
